@@ -13,6 +13,8 @@ import 'package:pocketmovies/management/provider/auth_provider.dart';
 import 'package:pocketmovies/management/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'BottomNavigation/bottom_navigation.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
@@ -49,7 +51,7 @@ class Clipix extends StatelessWidget {
               const Locale('hi'),
             ],
             theme: appTheme,
-            home: SignInNavigator(),
+            home: auth.isAuth ? BottomNavigation() : SignInNavigator(),
             routes: PageRoutes().routes(),
           );
         },

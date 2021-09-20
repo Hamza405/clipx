@@ -1,18 +1,20 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pocketmovies/Auth/sign_in_navigator.dart';
+import 'package:pocketmovies/BottomNavigation/bottom_navigation.dart';
 import 'package:pocketmovies/Components/background_image.dart';
 import 'package:pocketmovies/Components/button_with_icon.dart';
 import 'package:pocketmovies/Components/continue_button.dart';
-import 'package:pocketmovies/Components/entry_field.dart';
-import 'package:pocketmovies/Locale/locales.dart';
+import 'package:pocketmovies/Routes/routes.dart';
 import 'package:pocketmovies/Theme/colors.dart';
+import 'package:pocketmovies/management/provider/auth_provider.dart';
+import 'package:pocketmovies/model/http_exception.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SignInBody();
+    return Scaffold(body: SignInBody());
   }
 }
 
@@ -23,13 +25,49 @@ class SignInBody extends StatefulWidget {
 
 class _SignInBodyState extends State<SignInBody> {
   final TextEditingController _controller = TextEditingController();
+  bool _lockedPassword = true;
+  void _toggle() {
+    setState(() {
+      _lockedPassword = !_lockedPassword;
+    });
+  }
 
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  Map<String, String> _authData = {
+    'userName': '',
+    'password': '',
+  };
+  var _isLoading = false;
+  final _passwordController = TextEditingController();
   String isoCode;
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _sumbit() async {
+    _formKey.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await Provider.of<AuthProvider>(context, listen: false)
+          .signIn(_authData['userName'], _authData['password']);
+    } on HttpException catch (error) {
+      const errorMessage =
+          'Could not authenticate you. Please try again later.';
+      print(error.toString());
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
+    } catch (e) {
+      const errorMessage =
+          'Could not authenticate you. Please try again later.';
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -44,94 +82,148 @@ class _SignInBodyState extends State<SignInBody> {
           appBar: AppBar(
             title: Text('Sign in'),
           ),
-          body: SingleChildScrollView(
-            child: Container(
-              height: screenHeight -
-                  AppBar().preferredSize.height -
-                  MediaQuery.of(context).padding.vertical,
-              padding: EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Spacer(),
-                  Image.asset(
-                    'images/main_logo.png',
-                    height: 112,
-                    width: 90,
-                  ),
-                  Expanded(
-                    child: SizedBox(
+          body: Container(
+            height: screenHeight -
+                AppBar().preferredSize.height -
+                MediaQuery.of(context).padding.vertical,
+            padding: EdgeInsets.all(20.0),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Image.asset(
+                      'images/main_logo.png',
+                      height: 112,
+                      width: 90,
+                    ),
+                    SizedBox(
                       height: 60.0,
                     ),
-                  ),
-                  Text(
-                    'Enter Phone Number\nto continue',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(letterSpacing: 1.2),
-                  ),
-                  EntryField(
-                    controller: _controller,
-                    keyboardType: TextInputType.number,
-                    readOnly: false,
-                    label: AppLocalizations.of(context).mobileText,
-                    maxLength: 10,
-                    prefix: CountryCodePicker(
-                      dialogTextStyle: TextStyle(color: darkTextColor),
-                      onChanged: (value) {
-                        isoCode = value.code;
+                    TextFormField(
+                      cursorColor: mainColor,
+                      decoration: InputDecoration(
+                          hintStyle: TextStyle(color: lightTextColor),
+                          labelStyle: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              .copyWith(color: unselectedLabelColor),
+                          labelText: 'User Name'),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter youre name';
+                        }
                       },
-                      initialSelection: '+1',
-                      textStyle: Theme.of(context).textTheme.caption,
-                      showFlag: false,
-                      showFlagDialog: true,
-                      favorite: ['+91', 'US'],
+                      onSaved: (value) {
+                        _authData['userName'] = value;
+                      },
                     ),
-                  ),
-                  ContinueButton(() {
-                    Navigator.pushNamed(context, SignInRoutes.signUp);
-                  }),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 20.0),
-                    child: Text(
-                      'Or continue with',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
+                    SizedBox(height: 10),
+                    TextFormField(
+                      cursorColor: mainColor,
+                      decoration: InputDecoration(
+                          hintStyle: TextStyle(color: lightTextColor),
+                          labelStyle: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              .copyWith(color: unselectedLabelColor),
+                          labelText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(_lockedPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: _toggle,
+                          )),
+                      obscureText: _lockedPassword,
+                      controller: _passwordController,
+                      validator: (value) {
+                        if (value.isEmpty || value.length < 5) {
+                          return 'Password is too short!';
+                        }
+                      },
+                      onSaved: (value) {
+                        _authData['password'] = value;
+                      },
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      //Facebook button
-                      ButtonWithIcon(
-                        label: 'Facebook',
-                        color: Color(0xff3a559e),
-                        image: 'images/ic_fb.png',
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, SignInRoutes.socialLogin);
+                    // Text(
+                    //   'Enter Phone Number\nto continue',
+                    //   style: Theme.of(context)
+                    //       .textTheme
+                    //       .headline5
+                    //       .copyWith(letterSpacing: 1.2),
+                    // ),
+                    // EntryField(
+                    //   controller: _controller,
+                    //   keyboardType: TextInputType.number,
+                    //   readOnly: false,
+                    //   label: AppLocalizations.of(context).mobileText,
+                    //   maxLength: 10,
+                    //   prefix: CountryCodePicker(
+                    //     dialogTextStyle: TextStyle(color: darkTextColor),
+                    //     onChanged: (value) {
+                    //       isoCode = value.code;
+                    //     },
+                    //     initialSelection: '+1',
+                    //     textStyle: Theme.of(context).textTheme.caption,
+                    //     showFlag: false,
+                    //     showFlagDialog: true,
+                    //     favorite: ['+91', 'US'],
+                    //   ),
+                    // ),
+                    SizedBox(height: 15),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, SignInRoutes.signUp);
                         },
+                        child: Text(
+                          'Dont have an account? SignUp',
+                          style: TextStyle(color: mainColor),
+                        )),
+                    ContinueButton(() {
+                      _sumbit();
+                    }),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 20.0),
+                      child: Text(
+                        'Or continue with',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white),
                       ),
-                      SizedBox(
-                        width: 20,
-                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        //Facebook button
+                        ButtonWithIcon(
+                          label: 'Facebook',
+                          color: Color(0xff3a559e),
+                          image: 'images/ic_fb.png',
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, SignInRoutes.socialLogin);
+                          },
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
 
-                      //Google button
-                      ButtonWithIcon(
-                        label: 'Google',
-                        textColor: blackColor,
-                        color: Colors.white,
-                        image: 'images/ic_ggl.png',
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, SignInRoutes.socialLogin);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
+                        //Google button
+                        ButtonWithIcon(
+                          label: 'Google',
+                          textColor: blackColor,
+                          color: Colors.white,
+                          image: 'images/ic_ggl.png',
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, SignInRoutes.socialLogin);
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
