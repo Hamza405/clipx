@@ -9,6 +9,9 @@ import 'package:pocketmovies/Locale/locales.dart';
 import 'package:pocketmovies/Routes/routes.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 import 'package:pocketmovies/Theme/style.dart';
+import 'package:pocketmovies/management/provider/auth_provider.dart';
+import 'package:pocketmovies/management/provider/home_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,19 +27,33 @@ class Clipix extends StatelessWidget {
   Widget build(BuildContext context) {
 //    timeDilation = 5.0;
 
-    return MaterialApp(
-      localizationsDelegates: [
-        const AppLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider<HomeProvider>(
+          create: (context) => HomeProvider(),
+        )
       ],
-      supportedLocales: [
-        const Locale('en'),
-        const Locale('hi'),
-      ],
-      theme: appTheme,
-      home: SignInNavigator(),
-      routes: PageRoutes().routes(),
+      child: Consumer<AuthProvider>(
+        builder: (context, auth, _) {
+          return MaterialApp(
+            localizationsDelegates: [
+              const AppLocalizationsDelegate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: [
+              const Locale('en'),
+              const Locale('hi'),
+            ],
+            theme: appTheme,
+            home: SignInNavigator(),
+            routes: PageRoutes().routes(),
+          );
+        },
+      ),
     );
   }
 }
