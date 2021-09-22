@@ -7,6 +7,8 @@ import 'package:pocketmovies/Components/button_with_icon.dart';
 import 'package:pocketmovies/Routes/routes.dart';
 
 import 'package:pocketmovies/Theme/colors.dart';
+import 'package:pocketmovies/management/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class AccountPage extends StatelessWidget {
   @override
@@ -224,8 +226,10 @@ class LogoutButton extends StatelessWidget {
                 FlatButton(
                     child: Text('Yes'),
                     textColor: mainColor,
-                    onPressed: () {
-                      Phoenix.rebirth(context);
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      await Provider.of<AuthProvider>(context, listen: false)
+                          .logout();
                     })
               ],
             );

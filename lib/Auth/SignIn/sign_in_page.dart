@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pocketmovies/Auth/sign_in_navigator.dart';
-import 'package:pocketmovies/BottomNavigation/bottom_navigation.dart';
 import 'package:pocketmovies/Components/background_image.dart';
 import 'package:pocketmovies/Components/button_with_icon.dart';
 import 'package:pocketmovies/Components/continue_button.dart';
-import 'package:pocketmovies/Routes/routes.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 import 'package:pocketmovies/management/provider/auth_provider.dart';
-import 'package:pocketmovies/model/http_exception.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
@@ -55,14 +52,15 @@ class _SignInBodyState extends State<SignInBody> {
     try {
       await Provider.of<AuthProvider>(context, listen: false)
           .signIn(_authData['userName'], _authData['password']);
-    } on HttpException catch (error) {
-      const errorMessage =
-          'Could not authenticate you. Please try again later.';
-      print(error.toString());
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
     } catch (e) {
-      const errorMessage =
+      String errorMessage =
           'Could not authenticate you. Please try again later.';
+      if (e.toString().contains('Username')) {
+        errorMessage = 'Could not authenticate you. Check your Username';
+      }
+      if (e.toString().contains('Password')) {
+        errorMessage = 'Could not authenticate you. Check your Password';
+      }
       Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
     }
     setState(() {
@@ -147,31 +145,6 @@ class _SignInBodyState extends State<SignInBody> {
                         _authData['password'] = value;
                       },
                     ),
-                    // Text(
-                    //   'Enter Phone Number\nto continue',
-                    //   style: Theme.of(context)
-                    //       .textTheme
-                    //       .headline5
-                    //       .copyWith(letterSpacing: 1.2),
-                    // ),
-                    // EntryField(
-                    //   controller: _controller,
-                    //   keyboardType: TextInputType.number,
-                    //   readOnly: false,
-                    //   label: AppLocalizations.of(context).mobileText,
-                    //   maxLength: 10,
-                    //   prefix: CountryCodePicker(
-                    //     dialogTextStyle: TextStyle(color: darkTextColor),
-                    //     onChanged: (value) {
-                    //       isoCode = value.code;
-                    //     },
-                    //     initialSelection: '+1',
-                    //     textStyle: Theme.of(context).textTheme.caption,
-                    //     showFlag: false,
-                    //     showFlagDialog: true,
-                    //     favorite: ['+91', 'US'],
-                    //   ),
-                    // ),
                     SizedBox(height: 15),
                     TextButton(
                         onPressed: () {
@@ -181,9 +154,17 @@ class _SignInBodyState extends State<SignInBody> {
                           'Dont have an account? SignUp',
                           style: TextStyle(color: mainColor),
                         )),
-                    ContinueButton(() {
-                      _sumbit();
-                    }),
+                    _isLoading
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                                child: CircularProgressIndicator(
+                              color: mainColor,
+                            )),
+                          )
+                        : ContinueButton(() {
+                            _sumbit();
+                          }),
                     Padding(
                       padding: EdgeInsets.only(bottom: 20.0),
                       child: Text(

@@ -30,16 +30,23 @@ class UserModel {
 
 class Message {
   List<String> success;
+  List<String> error;
 
-  Message({this.success});
+  Message({this.success, this.error});
 
   Message.fromJson(Map<String, dynamic> json) {
-    success = json['success'].cast<String>();
+    if (json['success'] != null) {
+      success = json['success'].cast<String>();
+    }
+    if (json['error'] != null) {
+      success = json['error'].cast<String>();
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['success'] = this.success;
+    data['error'] = this.error;
     return data;
   }
 }
@@ -75,21 +82,21 @@ class User {
   String lastname;
   String username;
   String email;
-  String countryCode;
+  var countryCode;
   String mobile;
   Null refBy;
   String balance;
   String image;
   Address address;
-  String status;
-  String ev;
-  String sv;
-  Null verCode;
-  Null verCodeSendAt;
-  String ts;
-  int tv;
-  Null tsc;
-  Null exp;
+  var status;
+  var ev;
+  var sv;
+  var verCode;
+  var verCodeSendAt;
+  var ts;
+  var tv;
+  var tsc;
+  var exp;
   String createdAt;
   String updatedAt;
 

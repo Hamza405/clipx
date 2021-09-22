@@ -1,16 +1,16 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:pocketmovies/Auth/sign_in_navigator.dart';
 import 'package:pocketmovies/Components/background_image.dart';
 import 'package:pocketmovies/Components/continue_button.dart';
-import 'package:pocketmovies/Components/entry_field.dart';
 import 'package:pocketmovies/Theme/colors.dart';
+import 'package:pocketmovies/management/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SignUpBody();
+    return Scaffold(body: SignUpBody());
   }
 }
 
@@ -20,7 +20,7 @@ class SignUpBody extends StatefulWidget {
 }
 
 class _SignUpBodyState extends State<SignUpBody> {
-  String isoCode;
+  String isoCode = "+1";
   bool _lockedPassword = true;
   void _toggle() {
     setState(() {
@@ -30,11 +30,66 @@ class _SignUpBodyState extends State<SignUpBody> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   Map<String, String> _authData = {
+    'firstName': '',
+    'lastName': '',
     'userName': '',
+    'email': '',
+    'phoneNumber': '',
     'password': '',
   };
   var _isLoading = false;
   final _passwordController = TextEditingController();
+  bool isEmail(String em) {
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+    RegExp regExp = new RegExp(p);
+
+    return regExp.hasMatch(em);
+  }
+
+  Future<void> _sumbit() async {
+    if (!_formKey.currentState.validate()) return;
+    await _formKey.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await Provider.of<AuthProvider>(context, listen: false).SignUp(
+          _authData['firstName'],
+          _authData['lastName'],
+          _authData['email'],
+          _authData['password'],
+          _authData['userName'],
+          _authData['phoneNumber']);
+    } catch (e) {
+      print(e.toString());
+      String errorMessage =
+          'Could not authenticate you. Please try again later.';
+      if (e.toString().contains('password') &&
+          e.toString().contains('6 characters.')) {
+        errorMessage = 'The password must must be at least 6 characters.';
+      }
+      if (e.toString().contains('email')) {
+        errorMessage = 'The email has already been taken.';
+      }
+      if (e.toString().contains('mobile')) {
+        errorMessage = 'The Phone number has already been taken.';
+      }
+      if (e.toString().contains('username')) {
+        errorMessage = 'The User Name has already been taken.';
+      }
+      if (e.toString().contains('username') &&
+          e.toString().contains('6 characters.')) {
+        errorMessage = 'The username must be at least 6 characters.';
+      }
+
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +131,33 @@ class _SignUpBodyState extends State<SignUpBody> {
                               .textTheme
                               .subtitle1
                               .copyWith(color: unselectedLabelColor),
-                          labelText: 'Full Name'),
+                          labelText: 'First Name'),
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter youre name';
                         }
                       },
                       onSaved: (value) {
-                        _authData['userName'] = value;
+                        _authData['firstName'] = value;
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    TextFormField(
+                      cursorColor: mainColor,
+                      decoration: InputDecoration(
+                          hintStyle: TextStyle(color: lightTextColor),
+                          labelStyle: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              .copyWith(color: unselectedLabelColor),
+                          labelText: 'Last Name'),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter youre name';
+                        }
+                      },
+                      onSaved: (value) {
+                        _authData['lastName'] = value;
                       },
                     ),
                     SizedBox(height: 10),
@@ -97,8 +171,8 @@ class _SignUpBodyState extends State<SignUpBody> {
                               .copyWith(color: unselectedLabelColor),
                           labelText: 'User Name'),
                       validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter youre name';
+                        if (value.length < 6) {
+                          return 'The username must be at least 6 characters.';
                         }
                       },
                       onSaved: (value) {
@@ -117,12 +191,12 @@ class _SignUpBodyState extends State<SignUpBody> {
                               .copyWith(color: unselectedLabelColor),
                           labelText: 'Email'),
                       validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter youre name';
+                        if (!isEmail(value)) {
+                          return 'Please Check your email';
                         }
                       },
                       onSaved: (value) {
-                        _authData['userName'] = value;
+                        _authData['email'] = value;
                       },
                     ),
                     SizedBox(height: 10),
@@ -135,14 +209,26 @@ class _SignUpBodyState extends State<SignUpBody> {
                               .textTheme
                               .subtitle1
                               .copyWith(color: unselectedLabelColor),
-                          labelText: 'Phone Number'),
+                          labelText: 'Phone Number',
+                          prefix: CountryCodePicker(
+                            initialSelection: '+1',
+                            showFlag: true,
+                            showFlagDialog: true,
+                            textStyle: Theme.of(context).textTheme.caption,
+                            dialogTextStyle: TextStyle(color: darkTextColor),
+                            favorite: ['+91', 'US'],
+                            onChanged: (value) {
+                              isoCode = value.dialCode;
+                            },
+                          )),
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter youre name';
                         }
                       },
                       onSaved: (value) {
-                        _authData['userName'] = value;
+                        _authData['phoneNumber'] =
+                            (isoCode.toString() + value.toString()).trim();
                       },
                     ),
                     SizedBox(height: 10),
@@ -172,12 +258,19 @@ class _SignUpBodyState extends State<SignUpBody> {
                         _authData['password'] = value;
                       },
                     ),
-                    Hero(
-                      tag: 'signToVer',
-                      child: ContinueButton(() {
-                        Navigator.pushNamed(context, SignInRoutes.verification);
-                      }),
-                    ),
+                    _isLoading
+                        ? Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Center(
+                                child: CircularProgressIndicator(
+                              color: mainColor,
+                            )),
+                          )
+                        : ContinueButton(() {
+                            _sumbit();
+                            print(_authData);
+                            print(isoCode.toString());
+                          }),
                     SizedBox(
                       height: 10,
                     ),
