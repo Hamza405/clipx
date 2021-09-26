@@ -147,6 +147,13 @@ class _SignInBodyState extends State<SignInBody> {
                     ),
                     SizedBox(height: 15),
                     TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Forget your password ?',
+                          style: TextStyle(color: mainColor),
+                        )),
+                    SizedBox(height: 15),
+                    TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, SignInRoutes.signUp);
                         },

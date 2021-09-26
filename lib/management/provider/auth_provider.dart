@@ -85,16 +85,16 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> autoLogin() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey('userData')) {
-      return false;
-    }
-    final extractedUserData =
-        await json.decode(prefs.getString(keyUserData)) as Map<String, Object>;
-    _token = extractedUserData['token'];
-    _isAuth = true;
-    notifyListeners();
-    return true;
+    // final prefs = await SharedPreferences.getInstance();
+    // if (!prefs.containsKey('userData')) {
+    //   return false;
+    // }
+    // final extractedUserData =
+    //     await json.decode(prefs.getString(keyUserData)) as Map<String, Object>;
+    // _token = extractedUserData['token'];
+    // _isAuth = true;
+    // notifyListeners();
+    // return true;
   }
 
   Future<void> logout() {
