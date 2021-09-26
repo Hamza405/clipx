@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:pocketmovies/BottomNavigation/Account/UI/my_profile_edit.dart';
 import 'package:pocketmovies/Components/entry_field.dart';
 import 'package:pocketmovies/Theme/colors.dart';
+import 'package:pocketmovies/management/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class MyProfilePage extends StatelessWidget {
+  // storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
   @override
   Widget build(BuildContext context) {
+    final userData = Provider.of<AuthProvider>(context).user.data.user;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: Text('My Profile'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => EditMyProfilePage()));
+              },
+              icon: Icon(
+                Icons.edit,
+                color: mainColor,
+              ))
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -42,7 +58,7 @@ class MyProfilePage extends StatelessWidget {
             EntryField(
               textCapitalization: TextCapitalization.words,
               label: 'Full Name',
-              initialValue: 'Samantha Smith',
+              initialValue: '${userData.firstname} ${userData.lastname}',
               readOnly: true,
             ),
 
@@ -50,7 +66,7 @@ class MyProfilePage extends StatelessWidget {
             EntryField(
               textCapitalization: TextCapitalization.none,
               label: 'Email Address',
-              initialValue: 'samathasmith@mail.com',
+              initialValue: '${userData.email}',
               readOnly: true,
             ),
 
@@ -58,7 +74,7 @@ class MyProfilePage extends StatelessWidget {
             EntryField(
               label: 'Phone Num',
               readOnly: true,
-              initialValue: '+91__________',
+              initialValue: '${userData.mobile}',
             ),
             Spacer(flex: 3),
           ],

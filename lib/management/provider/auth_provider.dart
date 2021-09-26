@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:pocketmovies/model/http_exception.dart';
 import 'package:pocketmovies/model/user_model.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
   final String keyUserData = 'userData';
@@ -61,12 +60,12 @@ class AuthProvider with ChangeNotifier {
         _token = _user.data.accessToken.toString();
         print('Token : $_token');
       }
-      final prefs = await SharedPreferences.getInstance();
-      final userData = json.encode({
-        'token': _token,
-        'userName': userName,
-      });
-      prefs.setString(keyUserData, userData);
+      // final prefs = await SharedPreferences.getInstance();
+      // final userData = json.encode({
+      //   'token': _token,
+      //   'userName': userName,
+      // });
+      // prefs.setString(keyUserData, userData);
       notifyListeners();
     } catch (error) {
       print(error.toString());
@@ -78,6 +77,17 @@ class AuthProvider with ChangeNotifier {
     _token = null;
     _user = null;
     _isAuth = false;
+    notifyListeners();
+  }
+
+  Future<void> editProfile(String firstName, String lastName) async {
+    print('Edit Profile');
+    final response = await dio.post(
+        'https://hotflix.club/api/user/profile-setting',
+        data: {'firstname': firstName, 'lastname': lastName},
+        options: Options(headers: {'Authorization': "Bearer " + _token}));
+    final data = response.data;
+    print(data);
     notifyListeners();
   }
 }

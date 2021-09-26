@@ -41,6 +41,7 @@ class _AccountBodyState extends State<AccountBody> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final userData = Provider.of<AuthProvider>(context).user.data.user;
     return Stack(children: <Widget>[
       BackgroundImage(),
       Scaffold(
@@ -57,8 +58,8 @@ class _AccountBodyState extends State<AccountBody> {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              UserDetails(
-                  'Samantha Smith', 'images/user/my profile.png', screenWidth),
+              UserDetails('${userData.firstname} ${userData.lastname}',
+                  'images/user/my profile.png', screenWidth),
               ListTile(
                 leading: Icon(Icons.settings, color: mainColor),
                 title: Text('Settings'),
