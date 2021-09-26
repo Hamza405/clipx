@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pocketmovies/model/http_exception.dart';
 import 'package:pocketmovies/model/user_model.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
   final String keyUserData = 'userData';
@@ -30,6 +31,11 @@ class AuthProvider with ChangeNotifier {
         print('Token : $_token');
       }
       notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode({
+        'token': _token,
+      });
+      prefs.setString(keyUserData, userData);
       print(_user.message.success);
     } catch (error) {
       print(error.toString());
@@ -67,10 +73,28 @@ class AuthProvider with ChangeNotifier {
       // });
       // prefs.setString(keyUserData, userData);
       notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode({
+        'token': _token,
+      });
+      prefs.setString(keyUserData, userData);
     } catch (error) {
       print(error.toString());
       throw error;
     }
+  }
+
+  Future<bool> autoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('userData')) {
+      return false;
+    }
+    final extractedUserData =
+        await json.decode(prefs.getString(keyUserData)) as Map<String, Object>;
+    _token = extractedUserData['token'];
+    _isAuth = true;
+    notifyListeners();
+    return true;
   }
 
   Future<void> logout() {
