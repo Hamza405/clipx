@@ -49,19 +49,19 @@ class _SignUpBodyState extends State<SignUpBody> {
   }
 
   Future<void> _sumbit() async {
-    if (!_formKey.currentState.validate()) return;
-    await _formKey.currentState.save();
+    if (!_formKey.currentState!.validate()) return;
+    _formKey.currentState!.save();
     setState(() {
       _isLoading = true;
     });
     try {
       await Provider.of<AuthProvider>(context, listen: false).SignUp(
-          _authData['firstName'],
-          _authData['lastName'],
-          _authData['email'],
-          _authData['password'],
-          _authData['userName'],
-          _authData['phoneNumber']);
+          _authData['firstName']!,
+          _authData['lastName']!,
+          _authData['email']!,
+          _authData['password']!,
+          _authData['userName']!,
+          _authData['phoneNumber']!);
     } catch (e) {
       print(e.toString());
       String errorMessage =
@@ -129,16 +129,16 @@ class _SignUpBodyState extends State<SignUpBody> {
                           hintStyle: TextStyle(color: lightTextColor),
                           labelStyle: Theme.of(context)
                               .textTheme
-                              .subtitle1
+                              .subtitle1!
                               .copyWith(color: unselectedLabelColor),
                           labelText: 'First Name'),
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Please enter youre name';
                         }
                       },
                       onSaved: (value) {
-                        _authData['firstName'] = value;
+                        _authData['firstName'] = value!;
                       },
                     ),
                     SizedBox(height: 10),
@@ -148,16 +148,16 @@ class _SignUpBodyState extends State<SignUpBody> {
                           hintStyle: TextStyle(color: lightTextColor),
                           labelStyle: Theme.of(context)
                               .textTheme
-                              .subtitle1
+                              .subtitle1!
                               .copyWith(color: unselectedLabelColor),
                           labelText: 'Last Name'),
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Please enter youre name';
                         }
                       },
                       onSaved: (value) {
-                        _authData['lastName'] = value;
+                        _authData['lastName'] = value!;
                       },
                     ),
                     SizedBox(height: 10),
@@ -167,16 +167,16 @@ class _SignUpBodyState extends State<SignUpBody> {
                           hintStyle: TextStyle(color: lightTextColor),
                           labelStyle: Theme.of(context)
                               .textTheme
-                              .subtitle1
+                              .subtitle1!
                               .copyWith(color: unselectedLabelColor),
                           labelText: 'User Name'),
                       validator: (value) {
-                        if (value.length < 6) {
+                        if (value!.length < 6) {
                           return 'The username must be at least 6 characters.';
                         }
                       },
                       onSaved: (value) {
-                        _authData['userName'] = value;
+                        _authData['userName'] = value!;
                       },
                     ),
                     SizedBox(height: 10),
@@ -187,16 +187,16 @@ class _SignUpBodyState extends State<SignUpBody> {
                           hintStyle: TextStyle(color: lightTextColor),
                           labelStyle: Theme.of(context)
                               .textTheme
-                              .subtitle1
+                              .subtitle1!
                               .copyWith(color: unselectedLabelColor),
                           labelText: 'Email'),
                       validator: (value) {
-                        if (!isEmail(value)) {
+                        if (!isEmail(value!)) {
                           return 'Please Check your email';
                         }
                       },
                       onSaved: (value) {
-                        _authData['email'] = value;
+                        _authData['email'] = value!;
                       },
                     ),
                     SizedBox(height: 10),
@@ -207,22 +207,22 @@ class _SignUpBodyState extends State<SignUpBody> {
                           hintStyle: TextStyle(color: lightTextColor),
                           labelStyle: Theme.of(context)
                               .textTheme
-                              .subtitle1
+                              .subtitle1!
                               .copyWith(color: unselectedLabelColor),
                           labelText: 'Phone Number',
                           prefix: CountryCodePicker(
                             initialSelection: '+1',
                             showFlag: true,
                             showFlagDialog: true,
-                            textStyle: Theme.of(context).textTheme.caption,
+                            textStyle: Theme.of(context).textTheme.caption!,
                             dialogTextStyle: TextStyle(color: darkTextColor),
                             favorite: ['+91', 'US'],
                             onChanged: (value) {
-                              isoCode = value.dialCode;
+                              isoCode = value.dialCode!;
                             },
                           )),
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Please enter youre name';
                         }
                       },
@@ -238,7 +238,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                           hintStyle: TextStyle(color: lightTextColor),
                           labelStyle: Theme.of(context)
                               .textTheme
-                              .subtitle1
+                              .subtitle1!
                               .copyWith(color: unselectedLabelColor),
                           labelText: 'Password',
                           suffixIcon: IconButton(
@@ -250,12 +250,12 @@ class _SignUpBodyState extends State<SignUpBody> {
                       obscureText: _lockedPassword,
                       controller: _passwordController,
                       validator: (value) {
-                        if (value.isEmpty || value.length < 5) {
+                        if (value!.isEmpty || value.length < 5) {
                           return 'Password is too short!';
                         }
                       },
                       onSaved: (value) {
-                        _authData['password'] = value;
+                        _authData['password'] = value!;
                       },
                     ),
                     _isLoading

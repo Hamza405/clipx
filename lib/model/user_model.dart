@@ -1,8 +1,8 @@
 class UserModel {
-  int code;
-  String status;
-  Message message;
-  Data data;
+  int? code;
+  String? status;
+  Message? message;
+  Data? data;
 
   UserModel({this.code, this.status, this.message, this.data});
 
@@ -19,32 +19,32 @@ class UserModel {
     data['code'] = this.code;
     data['status'] = this.status;
     if (this.message != null) {
-      data['message'] = this.message.toJson();
+      data['message'] = this.message!.toJson();
     }
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Message {
-  List<String> success;
-  List<String> error;
+  List<String?>? success;
+  List<String?>? error;
 
   Message({this.success, this.error});
 
-  Message.fromJson(Map<String, dynamic> json) {
+  Message.fromJson(Map<String?, dynamic> json) {
     if (json['success'] != null) {
-      success = json['success'].cast<String>();
+      success = json['success'].cast<String?>();
     }
     if (json['error'] != null) {
-      success = json['error'].cast<String>();
+      success = json['error'].cast<String?>();
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+  Map<String?, dynamic> toJson() {
+    final Map<String?, dynamic> data = new Map<String?, dynamic>();
     data['success'] = this.success;
     data['error'] = this.error;
     return data;
@@ -52,9 +52,9 @@ class Message {
 }
 
 class Data {
-  User user;
-  String accessToken;
-  String tokenType;
+  User? user;
+  String? accessToken;
+  String? tokenType;
 
   Data({this.user, this.accessToken, this.tokenType});
 
@@ -64,10 +64,10 @@ class Data {
     tokenType = json['token_type'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+  Map<String?, dynamic> toJson() {
+    final Map<String?, dynamic> data = new Map<String?, dynamic>();
     if (this.user != null) {
-      data['user'] = this.user.toJson();
+      data['user'] = this.user!.toJson();
     }
     data['access_token'] = this.accessToken;
     data['token_type'] = this.tokenType;
@@ -76,18 +76,17 @@ class Data {
 }
 
 class User {
-  int id;
-  String planId;
-  String firstname;
-  String lastname;
-  String username;
-  String email;
+  int? id;
+  String? planId;
+  String? firstname;
+  String? lastname;
+  String? username;
+  String? email;
   var countryCode;
-  String mobile;
-  Null refBy;
-  String balance;
-  String image;
-  Address address;
+  String? mobile;
+  String? balance;
+  String? image;
+  Address? address;
   var status;
   var ev;
   var sv;
@@ -97,8 +96,8 @@ class User {
   var tv;
   var tsc;
   var exp;
-  String createdAt;
-  String updatedAt;
+  String? createdAt;
+  String? updatedAt;
 
   User(
       {this.id,
@@ -109,7 +108,6 @@ class User {
       this.email,
       this.countryCode,
       this.mobile,
-      this.refBy,
       this.balance,
       this.image,
       this.address,
@@ -125,7 +123,7 @@ class User {
       this.createdAt,
       this.updatedAt});
 
-  User.fromJson(Map<String, dynamic> json) {
+  User.fromJson(Map<String?, dynamic> json) {
     id = json['id'];
     planId = json['plan_id'];
     firstname = json['firstname'];
@@ -134,7 +132,6 @@ class User {
     email = json['email'];
     countryCode = json['country_code'];
     mobile = json['mobile'];
-    refBy = json['ref_by'];
     balance = json['balance'];
     image = json['image'];
     address =
@@ -152,8 +149,8 @@ class User {
     updatedAt = json['updated_at'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+  Map<String?, dynamic> toJson() {
+    final Map<String?, dynamic> data = new Map<String?, dynamic>();
     data['id'] = this.id;
     data['plan_id'] = this.planId;
     data['firstname'] = this.firstname;
@@ -162,11 +159,10 @@ class User {
     data['email'] = this.email;
     data['country_code'] = this.countryCode;
     data['mobile'] = this.mobile;
-    data['ref_by'] = this.refBy;
     data['balance'] = this.balance;
     data['image'] = this.image;
     if (this.address != null) {
-      data['address'] = this.address.toJson();
+      data['address'] = this.address!.toJson();
     }
     data['status'] = this.status;
     data['ev'] = this.ev;
@@ -184,15 +180,15 @@ class User {
 }
 
 class Address {
-  String address;
-  String state;
-  String zip;
-  String country;
-  String city;
+  String? address;
+  String? state;
+  String? zip;
+  String? country;
+  String? city;
 
   Address({this.address, this.state, this.zip, this.country, this.city});
 
-  Address.fromJson(Map<String, dynamic> json) {
+  Address.fromJson(Map<String?, dynamic> json) {
     address = json['address'];
     state = json['state'];
     zip = json['zip'];
@@ -200,8 +196,8 @@ class Address {
     city = json['city'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+  Map<String?, dynamic> toJson() {
+    final Map<String?, dynamic> data = new Map<String?, dynamic>();
     data['address'] = this.address;
     data['state'] = this.state;
     data['zip'] = this.zip;

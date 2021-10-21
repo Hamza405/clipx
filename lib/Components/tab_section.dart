@@ -5,7 +5,7 @@ import 'package:pocketmovies/BottomNavigation/Home/TvShows/seasons_tab.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 
 class TabSection extends StatelessWidget {
-  final String tab1;
+  final String? tab1;
 
   TabSection({this.tab1});
 
@@ -31,7 +31,7 @@ class TabSection extends StatelessWidget {
                 unselectedLabelColor: unselectedLabelColor,
                 labelStyle: Theme.of(context)
                     .textTheme
-                    .bodyText1
+                    .bodyText1!
                     .copyWith(fontSize: 16.7),
                 isScrollable: true,
                 tabs: [

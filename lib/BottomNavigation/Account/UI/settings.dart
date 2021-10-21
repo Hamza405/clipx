@@ -92,11 +92,11 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   EntryField buildEntryField({
-    BuildContext context,
-    TextEditingController controller,
-    String label,
-    List<PopupMenuItem> items,
-    double upperPadding,
+    required BuildContext context,
+    TextEditingController? controller,
+    String? label,
+    required List<PopupMenuItem> items,
+    double? upperPadding,
   }) {
     return EntryField(
       controller: controller,
@@ -110,11 +110,11 @@ class _SettingsPageState extends State<SettingsPage> {
         var result = await showMenu(
           color: textBackgroundColor,
           context: context,
-          position: RelativeRect.fromLTRB(100.0, upperPadding, 30.0, 0.0),
+          position: RelativeRect.fromLTRB(100.0, upperPadding!, 30.0, 0.0),
           items: items,
         );
-        if (result == null) result = controller.text;
-        controller.text = result.toString();
+        if (result == null) result = controller!.text;
+        controller!.text = result.toString();
       },
     );
   }

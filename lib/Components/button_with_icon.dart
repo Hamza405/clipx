@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 
 class ButtonWithIcon extends StatelessWidget {
-  final Color color;
-  final Color textColor;
-  final Color borderColor;
-  final String image;
-  final String label;
-  final Function onTap;
-  final Icon icon;
+  final Color? color;
+  final Color? textColor;
+  final Color? borderColor;
+  final String? image;
+  final String? label;
+  final Function()? onTap;
+  final Icon? icon;
 
   ButtonWithIcon({
     this.color,
@@ -37,14 +37,14 @@ class ButtonWithIcon extends StatelessWidget {
           padding: EdgeInsets.all(14.0),
           child: icon ??
               Image.asset(
-                image,
+                image!,
                 scale: 3,
               ),
         ),
         label: Text(
-          label,
+          label!,
           style:
-              Theme.of(context).textTheme.bodyText1.copyWith(color: textColor),
+              Theme.of(context).textTheme.bodyText1!.copyWith(color: textColor),
         ),
       ),
     );

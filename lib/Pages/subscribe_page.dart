@@ -61,7 +61,7 @@ class _SubscribeBodyState extends State<SubscribeBody> {
                 'Why upgrade\nto premium?',
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headline5!
                     .copyWith(letterSpacing: 1.2),
               ),
             ),
@@ -101,9 +101,9 @@ class SubscribeData {
 }
 
 class SubscribeTile extends StatelessWidget {
-  final String subscriptionTime;
-  final String price;
-  final Function onTap;
+  final String? subscriptionTime;
+  final String? price;
+  final Function()? onTap;
 
   SubscribeTile({this.subscriptionTime, this.price, this.onTap});
 
@@ -132,7 +132,7 @@ class SubscribeTile extends StatelessWidget {
             bottom: 30.0,
             left: 25.0,
             child: Text(
-              subscriptionTime.toUpperCase(),
+              subscriptionTime!.toUpperCase(),
               style: Theme.of(context).textTheme.headline5,
             ),
           ),
@@ -140,7 +140,7 @@ class SubscribeTile extends StatelessWidget {
             bottom: 30.0,
             right: 25.0,
             child: Text(
-              price,
+              price!,
               style: Theme.of(context).textTheme.headline5,
             ),
           ),

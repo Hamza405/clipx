@@ -22,7 +22,7 @@ class SocialSignUpBody extends StatefulWidget {
 
 class _SocialSignUpBodyState extends State<SocialSignUpBody> {
   final TextEditingController _controller = TextEditingController();
-  String isoCode;
+  String? isoCode;
 
   @override
   void dispose() {
@@ -72,14 +72,14 @@ class _SocialSignUpBodyState extends State<SocialSignUpBody> {
                 'Hey Samantha Smith,\n',
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headline5!
                     .copyWith(letterSpacing: 1.2),
               ),
               Text(
                 'You\’re almost in.\nKindly provide your phone number for Verification.',
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
+                    .headline6!
                     .copyWith(color: unselectedLabelColor),
               ),
               Spacer(),
@@ -87,7 +87,7 @@ class _SocialSignUpBodyState extends State<SocialSignUpBody> {
                 controller: _controller,
                 keyboardType: TextInputType.number,
                 readOnly: false,
-                label: AppLocalizations.of(context).mobileText,
+                // label: AppLocalizations.of(context).mobileText,
                 maxLength: 10,
                 prefix: CountryCodePicker(
                   dialogTextStyle: TextStyle(color: darkTextColor),
@@ -95,11 +95,12 @@ class _SocialSignUpBodyState extends State<SocialSignUpBody> {
                     isoCode = value.code;
                   },
                   initialSelection: '+1',
-                  textStyle: Theme.of(context).textTheme.caption,
+                  textStyle: Theme.of(context).textTheme.caption!,
                   showFlag: false,
                   showFlagDialog: true,
                   favorite: ['+91', 'US'],
                 ),
+                onTap: () {},
               ),
               Hero(
                 tag: 'signToVer',

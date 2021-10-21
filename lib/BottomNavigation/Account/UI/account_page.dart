@@ -41,7 +41,7 @@ class _AccountBodyState extends State<AccountBody> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final userData = Provider.of<AuthProvider>(context).user.data.user;
+    final userData = Provider.of<AuthProvider>(context).user!.data!.user;
     return Stack(children: <Widget>[
       BackgroundImage(),
       Scaffold(
@@ -58,7 +58,7 @@ class _AccountBodyState extends State<AccountBody> {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              UserDetails('${userData.firstname} ${userData.lastname}',
+              UserDetails('${userData!.firstname} ${userData.lastname}',
                   'images/user/my profile.png', screenWidth),
               ListTile(
                 leading: Icon(Icons.settings, color: mainColor),
@@ -107,8 +107,8 @@ class _AccountBodyState extends State<AccountBody> {
 }
 
 class Premium extends StatelessWidget {
-  final double screenWidth;
-  final List<Map<String, String>> benefitsList;
+  final double? screenWidth;
+  final List<Map<String, String>>? benefitsList;
 
   Premium({this.screenWidth, this.benefitsList});
 
@@ -116,19 +116,19 @@ class Premium extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 12.0, bottom: 12.0),
-      height: screenWidth / 4.5,
+      height: screenWidth! / 4.5,
       child: ListView.builder(
           shrinkWrap: true,
-          itemCount: benefitsList.length,
+          itemCount: benefitsList!.length,
           scrollDirection: Axis.horizontal,
           physics: BouncingScrollPhysics(),
           itemBuilder: (context, index) {
             return Container(
               margin: EdgeInsets.only(left: 8.0),
-              width: screenWidth / 1.5,
+              width: screenWidth! / 1.5,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(benefitsList[index]['image']),
+                    image: AssetImage(benefitsList![index]['image']!),
                     fit: BoxFit.cover),
                 borderRadius: BorderRadius.circular(8.0),
               ),
@@ -137,7 +137,7 @@ class Premium extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(left: 16.0),
                   child: Text(
-                    benefitsList[index]['text'],
+                    benefitsList![index]['text']!,
                     style: TextStyle(fontWeight: FontWeight.bold, height: 1.5),
                   ),
                 ),

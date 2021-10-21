@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 
 class BackgroundImage extends StatelessWidget {
-  final String image;
+  final String? image;
 
   BackgroundImage({this.image});
 

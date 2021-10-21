@@ -1,20 +1,21 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pocketmovies/Components/blurred_container.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 
 class DetailsPage extends StatelessWidget {
-  final Offset globalPosition;
-  final int index;
-  final String image;
+  final Offset? globalPosition;
+  final int? index;
+  final String? image;
   DetailsPage({this.globalPosition, this.index, this.image});
 
   @override
   Widget build(BuildContext context) {
-    return Details(globalPosition, index, image);
+    return Details(globalPosition!, index!, image!);
   }
 }
 
@@ -30,10 +31,10 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> with TickerProviderStateMixin {
-  AnimationController _controller;
-  AnimationController _buttonController;
-  Animation<Offset> _offsetAnimation;
-  Animation<Offset> _buttonAnimation;
+  late AnimationController _controller;
+  late AnimationController _buttonController;
+  late Animation<Offset> _offsetAnimation;
+  late Animation<Offset> _buttonAnimation;
 
   @override
   void initState() {
@@ -88,7 +89,7 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
             builder: (context, value, child) {
               return ClipPath(
                 clipper: CircularRevealClipper(
-                  fraction: value,
+                  fraction: double.parse(value.toString()),
                   centerOffset: widget.globalPosition,
                 ),
                 child: Container(
@@ -198,15 +199,22 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
       ),
     );
   }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<AnimationController>(
+        '_buttonController', _buttonController));
+  }
 }
 
 ///https://medium.com/@onetdev/circle-reveal-page-route-transition-in-flutter-7b44460d22e2
 class CircularRevealClipper extends CustomClipper<Path> {
-  final double fraction;
-  final Alignment centerAlignment;
-  final Offset centerOffset;
-  final double minRadius;
-  final double maxRadius;
+  final double? fraction;
+  final Alignment? centerAlignment;
+  final Offset? centerOffset;
+  final double? minRadius;
+  final double? maxRadius;
 
   CircularRevealClipper({
     @required this.fraction,
@@ -228,7 +236,7 @@ class CircularRevealClipper extends CustomClipper<Path> {
       ..addOval(
         Rect.fromCircle(
           center: center,
-          radius: lerpDouble(minRadius, maxRadius, fraction),
+          radius: lerpDouble(minRadius, maxRadius, fraction!)!,
         ),
       );
   }

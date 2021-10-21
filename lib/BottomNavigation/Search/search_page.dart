@@ -51,7 +51,7 @@ class _SearchBodyState extends State<SearchBody> {
                   'What\'d you like\nto watch today?',
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headline5!
                       .copyWith(letterSpacing: 1.2),
                 ),
               ),
@@ -86,7 +86,7 @@ class _SearchBodyState extends State<SearchBody> {
                             text,
                             style: Theme.of(context)
                                 .textTheme
-                                .caption
+                                .caption!
                                 .copyWith(color: lightTextColor),
                           ),
                           // shape: OutlineInputBorder(
@@ -111,7 +111,7 @@ class _SearchBodyState extends State<SearchBody> {
                               'Clear all'.toUpperCase(),
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption
+                                  .caption!
                                   .copyWith(color: mainColor),
                             ),
                             onPressed: () {
@@ -140,7 +140,7 @@ class _SearchBodyState extends State<SearchBody> {
                                     _searchList[index],
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle1
+                                        .subtitle1!
                                         .copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ],

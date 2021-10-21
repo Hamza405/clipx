@@ -77,7 +77,7 @@ class _TvShowsBodyState extends State<TvShowsBody> {
                       margin: EdgeInsets.symmetric(horizontal: 8.0),
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(i.image),
+                          image: AssetImage(i.image!),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(12.0),

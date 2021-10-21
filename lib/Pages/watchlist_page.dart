@@ -100,7 +100,7 @@ class WatchlistBody extends StatelessWidget {
                 unselectedLabelColor: unselectedLabelColor,
                 labelStyle: Theme.of(context)
                     .textTheme
-                    .bodyText1
+                    .bodyText1!
                     .copyWith(fontSize: 16.7),
                 isScrollable: true,
                 tabs: <Widget>[
@@ -123,8 +123,8 @@ class WatchlistBody extends StatelessWidget {
 }
 
 class Watchlist extends StatelessWidget {
-  final List<Video> watchlist;
-  final double screenWidth;
+  final List<Video>? watchlist;
+  final double? screenWidth;
 
   Watchlist({this.watchlist, this.screenWidth});
 
@@ -139,7 +139,7 @@ class Watchlist extends StatelessWidget {
           ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: watchlist.length,
+            itemCount: watchlist!.length,
             itemBuilder: (context, index) {
               return Stack(
                 children: <Widget>[
@@ -149,11 +149,11 @@ class Watchlist extends StatelessWidget {
                     child: Row(
                       children: <Widget>[
                         Container(
-                          height: screenWidth / 3,
-                          width: screenWidth / 4.25,
+                          height: screenWidth! / 3,
+                          width: screenWidth! / 4.25,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage(watchlist[index].image),
+                                image: AssetImage(watchlist![index].image!),
                                 fit: BoxFit.cover),
                             borderRadius: BorderRadius.horizontal(
                                 left: Radius.circular(8.0)),
@@ -163,7 +163,7 @@ class Watchlist extends StatelessWidget {
                           child: Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20.0, vertical: 12.0),
-                            height: screenWidth / 3,
+                            height: screenWidth! / 3,
                             decoration: BoxDecoration(
                               color: textBackgroundColor,
                               borderRadius: BorderRadius.horizontal(
@@ -174,12 +174,13 @@ class Watchlist extends StatelessWidget {
                                 style: TextStyle(color: darkTextColor),
                                 children: [
                                   TextSpan(
-                                      text: watchlist[index].title + '\n',
+                                      text: watchlist![index].title! + '\n',
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline6),
-                                  TextSpan(text: watchlist[index].genre + '\n'),
-                                  TextSpan(text: watchlist[index].language),
+                                  TextSpan(
+                                      text: watchlist![index].genre! + '\n'),
+                                  TextSpan(text: watchlist![index].language),
                                 ],
                               ),
                             ),
@@ -214,7 +215,7 @@ class Watchlist extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    left: screenWidth / 4,
+                    left: screenWidth! / 4,
                     bottom: 16.0,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -233,7 +234,7 @@ class Watchlist extends StatelessWidget {
                             children: [
                               TextSpan(
                                   text:
-                                      '${watchlist[index].noOfEpisodes} episodes'),
+                                      '${watchlist![index].noOfEpisodes} episodes'),
                               TextSpan(
                                   text: '  |  ',
                                   style: TextStyle(color: mainColor)),

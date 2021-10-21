@@ -4,14 +4,14 @@ import 'package:pocketmovies/Pages/subscribe_page.dart';
 import 'package:pocketmovies/Routes/routes.dart';
 
 class PaymentPage extends StatelessWidget {
-  final String subscriptionTime;
-  final String price;
+  final String? subscriptionTime;
+  final String? price;
 
   PaymentPage({this.subscriptionTime, this.price});
 
   @override
   Widget build(BuildContext context) {
-    return PaymentBody(subscriptionTime, price);
+    return PaymentBody(subscriptionTime!, price!);
   }
 }
 
@@ -47,7 +47,7 @@ class _PaymentBodyState extends State<PaymentBody> {
               'Why upgrade\nto premium?',
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headline5!
                   .copyWith(letterSpacing: 1.2),
             ),
           ),

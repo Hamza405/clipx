@@ -9,7 +9,7 @@ class MyProfilePage extends StatelessWidget {
   // storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<AuthProvider>(context).user.data.user;
+    final userData = Provider.of<AuthProvider>(context).user!.data!.user;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -58,16 +58,18 @@ class MyProfilePage extends StatelessWidget {
             EntryField(
               textCapitalization: TextCapitalization.words,
               label: 'Full Name',
-              initialValue: '${userData.firstname} ${userData.lastname}',
+              initialValue: '${userData!.firstname} ${userData.lastname}',
               readOnly: true,
+              onTap: () {},
             ),
 
             //email textField
             EntryField(
               textCapitalization: TextCapitalization.none,
               label: 'Email Address',
-              initialValue: '${userData.email}',
+              initialValue: '${userData!.email}',
               readOnly: true,
+              onTap: () {},
             ),
 
             //phone textField
@@ -75,6 +77,7 @@ class MyProfilePage extends StatelessWidget {
               label: 'Phone Num',
               readOnly: true,
               initialValue: '${userData.mobile}',
+              onTap: () {},
             ),
             Spacer(flex: 3),
           ],

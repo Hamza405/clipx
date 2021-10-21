@@ -9,7 +9,7 @@ class Genre {
 }
 
 class ExploreByGenre extends StatelessWidget {
-  final double width;
+  final double? width;
 
   ExploreByGenre({this.width});
 

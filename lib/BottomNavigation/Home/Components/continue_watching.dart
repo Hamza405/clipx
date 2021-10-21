@@ -6,7 +6,7 @@ import 'package:pocketmovies/Theme/colors.dart';
 import 'package:pocketmovies/BottomNavigation/Home/Components/movie.dart';
 
 class ContinueWatchingPage extends StatelessWidget {
-  final String routeName;
+  final String? routeName;
 
   ContinueWatchingPage({this.routeName});
 
@@ -30,7 +30,8 @@ class ContinueWatchingPage extends StatelessWidget {
             itemBuilder: (context, index) {
               return Hero(
                   tag: index,
-                  child: ContinueWatchingCard(_watchingList[index], routeName));
+                  child:
+                      ContinueWatchingCard(_watchingList[index], routeName!));
             }),
       ),
     );
@@ -78,7 +79,7 @@ class ContinueWatching extends StatelessWidget {
 }
 
 class ContinueWatchingCard extends StatelessWidget {
-  final Video movieIndex;
+  final Video? movieIndex;
   final String routeName;
 
   ContinueWatchingCard(this.movieIndex, this.routeName);
@@ -101,7 +102,8 @@ class ContinueWatchingCard extends StatelessWidget {
                   width: screenWidth / 2.85,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage(movieIndex.image), fit: BoxFit.cover),
+                        image: AssetImage(movieIndex!.image!),
+                        fit: BoxFit.cover),
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(8.0)),
                   ),
@@ -116,11 +118,11 @@ class ContinueWatchingCard extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: movieIndex.title + '\n',
+                          text: movieIndex!.title! + '\n',
                           style: Theme.of(context).textTheme.overline,
                         ),
                         TextSpan(
-                          text: movieIndex.genre,
+                          text: movieIndex!.genre,
                           style: TextStyle(fontSize: 8, color: darkTextColor),
                         )
                       ],

@@ -32,8 +32,10 @@ class Clipix extends StatelessWidget {
         ChangeNotifierProvider<AuthProvider>(
           create: (context) => AuthProvider(),
         ),
-        ChangeNotifierProvider<HomeProvider>(
+        ChangeNotifierProxyProvider<AuthProvider, HomeProvider>(
           create: (context) => HomeProvider(),
+          update: (context, auth, prevProvider) =>
+              prevProvider!..getAuth(auth.token),
         )
       ],
       child: Consumer<AuthProvider>(

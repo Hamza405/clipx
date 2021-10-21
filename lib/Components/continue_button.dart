@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 
 class ContinueButton extends StatelessWidget {
-  final Function onTap;
-  final String text;
+  final Function() onTap;
+  final String? text;
 
   ContinueButton(this.onTap, {this.text});
 

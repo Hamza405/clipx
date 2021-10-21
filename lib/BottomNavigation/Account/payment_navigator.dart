@@ -21,9 +21,9 @@ class PaymentNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        var canPop = navigatorKey.currentState.canPop();
+        var canPop = navigatorKey.currentState!.canPop();
         if (canPop) {
-          navigatorKey.currentState.pop();
+          navigatorKey.currentState!.pop();
         }
         return !canPop;
       },
@@ -31,7 +31,7 @@ class PaymentNavigator extends StatelessWidget {
         key: navigatorKey,
         initialRoute: PaymentRoutes.subscribe,
         onGenerateRoute: (RouteSettings settings) {
-          WidgetBuilder builder;
+          WidgetBuilder? builder;
           switch (settings.name) {
             case PaymentRoutes.subscribe:
               builder = (BuildContext _) => SubscribePage();
@@ -50,7 +50,7 @@ class PaymentNavigator extends StatelessWidget {
                   });
               break;
           }
-          return MaterialPageRoute(builder: builder, settings: settings);
+          return MaterialPageRoute(builder: builder!, settings: settings);
         },
         onPopPage: (Route<dynamic> route, dynamic result) {
           return route.didPop(result);

@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 
 class EntryField extends StatelessWidget {
-  final TextEditingController controller;
-  final String label;
-  final String image;
-  final String initialValue;
-  final bool readOnly;
-  final TextInputType keyboardType;
-  final int maxLength;
-  final int maxLines;
-  final String hint;
-  final Widget prefix;
-  final Widget suffixIcon;
-  final Function onTap;
-  final TextCapitalization textCapitalization;
+  final TextEditingController? controller;
+  final String? label;
+  final String? image;
+  final String? initialValue;
+  final bool? readOnly;
+  final TextInputType? keyboardType;
+  final int? maxLength;
+  final int? maxLines;
+  final String? hint;
+  final Widget? prefix;
+  final Widget? suffixIcon;
+  final Function() onTap;
+  final TextCapitalization? textCapitalization;
 
   EntryField({
     this.controller,
@@ -28,7 +28,7 @@ class EntryField extends StatelessWidget {
     this.prefix,
     this.maxLines,
     this.suffixIcon,
-    this.onTap,
+    required this.onTap,
     this.textCapitalization,
   });
 
@@ -52,14 +52,14 @@ class EntryField extends StatelessWidget {
         labelText: label,
         labelStyle: Theme.of(context)
             .textTheme
-            .subtitle1
+            .subtitle1!
             .copyWith(color: unselectedLabelColor),
         hintText: hint,
         hintStyle: TextStyle(color: lightTextColor),
         counter: Offstage(),
         icon: (image != null)
             ? ImageIcon(
-                AssetImage(image),
+                AssetImage(image!),
                 color: mainColor,
                 size: 20.0,
               )

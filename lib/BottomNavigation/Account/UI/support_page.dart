@@ -68,6 +68,7 @@ class SupportPage extends StatelessWidget {
                     label: 'Write your message',
                     maxLength: 200,
                     maxLines: 5,
+                    onTap: () {},
                   ),
                   ContinueButton(
                     () {},

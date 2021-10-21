@@ -6,14 +6,14 @@ import 'package:pocketmovies/Theme/colors.dart';
 import 'package:pocketmovies/BottomNavigation/Home/Components/movie.dart';
 
 class TVShowsDetailsPage extends StatelessWidget {
-  final String title;
-  final String genre;
+  final String? title;
+  final String? genre;
 
   TVShowsDetailsPage({this.title, this.genre});
 
   @override
   Widget build(BuildContext context) {
-    return MovieDetailsBody(title, genre);
+    return MovieDetailsBody(title!, genre!);
   }
 }
 
@@ -85,7 +85,7 @@ class _MovieDetailsBodyState extends State<MovieDetailsBody> {
                             text: TextSpan(
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyText2!
                                   .copyWith(color: unselectedLabelColor),
                               children: [
                                 TextSpan(text: 'Time'),

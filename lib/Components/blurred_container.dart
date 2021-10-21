@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 
 class BlurredContainer extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
 
   BlurredContainer({this.child});
 

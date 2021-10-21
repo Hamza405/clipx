@@ -61,19 +61,18 @@ class SeasonsTab extends StatelessWidget {
 
 class SeasonNumberTab extends StatelessWidget {
   const SeasonNumberTab({
-    Key key,
     @required this.screenWidth,
     @required this.clips,
-  }) : super(key: key);
+  });
 
-  final double screenWidth;
-  final List<VideoClip> clips;
+  final double? screenWidth;
+  final List<VideoClip>? clips;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: clips.length,
+      itemCount: clips!.length,
       scrollDirection: Axis.horizontal,
       physics: BouncingScrollPhysics(),
       itemBuilder: (context, index) {
@@ -82,10 +81,10 @@ class SeasonNumberTab extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(left: 8.0, right: 8.0),
-                width: screenWidth / 2,
+                width: screenWidth! / 2,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(clips[index].thumbnail),
+                      image: AssetImage(clips![index].thumbnail),
                       fit: BoxFit.cover),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -122,7 +121,7 @@ class SeasonNumberTab extends StatelessWidget {
               Positioned(
                 top: 8.0,
                 right: 16.0,
-                child: Text(clips[index].time),
+                child: Text(clips![index].time),
               )
             ],
           ),

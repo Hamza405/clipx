@@ -3,11 +3,11 @@ import 'package:pocketmovies/Routes/routes.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 
 class Reviews {
-  final String image;
-  final String name;
-  final String date;
-  final int rating;
-  final String review;
+  final String? image;
+  final String? name;
+  final String? date;
+  final int? rating;
+  final String? review;
 
   Reviews({this.image, this.name, this.date, this.rating, this.review});
 }
@@ -93,25 +93,25 @@ class ReviewsTab extends StatelessWidget {
                     SizedBox(height: 20.0),
                     ListTile(
                       leading: Image.asset(
-                        reviews[index].image,
+                        reviews[index].image!,
                         height: 30.0,
                         width: 30.0,
                       ),
                       title: Text(
-                        reviews[index].name,
+                        reviews[index].name!,
                         style: Theme.of(context).textTheme.caption,
                       ),
                       subtitle: Text(
-                        reviews[index].date,
+                        reviews[index].date!,
                         style: Theme.of(context)
                             .textTheme
-                            .overline
+                            .overline!
                             .copyWith(color: lightTextColor),
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: List.generate(
-                            reviews[index].rating,
+                            reviews[index].rating!,
                             (ind) => Icon(
                                   Icons.star,
                                   color: premiumColor,
@@ -120,10 +120,10 @@ class ReviewsTab extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      reviews[index].review,
+                      reviews[index].review!,
                       style: Theme.of(context)
                           .textTheme
-                          .caption
+                          .caption!
                           .copyWith(height: 1.5),
                     ),
                   ],

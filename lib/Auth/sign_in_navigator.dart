@@ -19,9 +19,9 @@ class SignInNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        var canPop = navigatorKey.currentState.canPop();
+        var canPop = navigatorKey.currentState!.canPop();
         if (canPop) {
-          navigatorKey.currentState.pop();
+          navigatorKey.currentState!.pop();
         }
         return !canPop;
       },
@@ -29,7 +29,7 @@ class SignInNavigator extends StatelessWidget {
         key: navigatorKey,
         initialRoute: SignInRoutes.signInRoot,
         onGenerateRoute: (RouteSettings settings) {
-          WidgetBuilder builder;
+          WidgetBuilder? builder;
           switch (settings.name) {
             case SignInRoutes.signInRoot:
               builder = (BuildContext _) => SignInPage();
@@ -47,7 +47,7 @@ class SignInNavigator extends StatelessWidget {
               builder = (BuildContext _) => SocialSignUpPage();
               break;
           }
-          return MaterialPageRoute(builder: builder, settings: settings);
+          return MaterialPageRoute(builder: builder!, settings: settings);
         },
         onPopPage: (Route<dynamic> route, dynamic result) {
           return route.didPop(result);

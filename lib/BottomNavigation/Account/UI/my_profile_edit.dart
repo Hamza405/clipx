@@ -11,7 +11,7 @@ class EditMyProfilePage extends StatefulWidget {
 class _EditMyProfilePageState extends State<EditMyProfilePage> {
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<AuthProvider>(context).user.data.user;
+    final userData = Provider.of<AuthProvider>(context).user!.data!.user;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -46,17 +46,17 @@ class _EditMyProfilePageState extends State<EditMyProfilePage> {
             ),
             Spacer(),
             TextFormField(
-              initialValue: userData.firstname,
+              initialValue: userData!.firstname,
               cursorColor: mainColor,
               decoration: InputDecoration(
                   hintStyle: TextStyle(color: lightTextColor),
                   labelStyle: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .subtitle1!
                       .copyWith(color: unselectedLabelColor),
                   labelText: 'First Name'),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter youre name';
                 }
               },
@@ -72,11 +72,11 @@ class _EditMyProfilePageState extends State<EditMyProfilePage> {
                   hintStyle: TextStyle(color: lightTextColor),
                   labelStyle: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .subtitle1!
                       .copyWith(color: unselectedLabelColor),
                   labelText: 'Last Name'),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter youre name';
                 }
               },
@@ -91,6 +91,7 @@ class _EditMyProfilePageState extends State<EditMyProfilePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
+                  onPressed: () {},
                   child: Text('Cancel',
                       style: TextStyle(
                           color: mainColor,
@@ -98,6 +99,7 @@ class _EditMyProfilePageState extends State<EditMyProfilePage> {
                           fontSize: 24)),
                 ),
                 TextButton(
+                  onPressed: () {},
                   child: Text('Save',
                       style: TextStyle(
                           color: mainColor,

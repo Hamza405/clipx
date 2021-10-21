@@ -1,10 +1,10 @@
 class Video {
-  final String image;
-  final String title;
-  final String genre;
-  final String language;
-  final int noOfEpisodes;
-  final int noOfSeasons;
+  final String? image;
+  final String? title;
+  final String? genre;
+  final String? language;
+  final int? noOfEpisodes;
+  final int? noOfSeasons;
 
   Video({
     this.image,

@@ -20,7 +20,7 @@ class AddReviewsBody extends StatefulWidget {
 
 class _AddReviewsBodyState extends State<AddReviewsBody> {
   TextEditingController _controller = TextEditingController();
-  double rating;
+  double? rating;
 
   @override
   void dispose() {
@@ -72,13 +72,13 @@ class _AddReviewsBodyState extends State<AddReviewsBody> {
                     SizedBox(height: 8.0),
                     Text(
                       'Add your Review',
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
                           color: unselectedLabelColor,
                           fontWeight: FontWeight.bold),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 20.0),
-                      child: RatingBar(
+                      child: RatingBar.builder(
                         minRating: 1,
                         itemCount: 5,
                         glowColor: transparentColor,
@@ -104,6 +104,7 @@ class _AddReviewsBodyState extends State<AddReviewsBody> {
                       maxLength: 200,
                       maxLines: 4,
                       label: 'Enter your review',
+                      onTap: () {},
                     ),
                     Hero(
                       tag: 'add',
@@ -112,7 +113,7 @@ class _AddReviewsBodyState extends State<AddReviewsBody> {
                         reviews.add(Reviews(
                           image: 'images/user/click to edit.png',
                           name: 'Anonymous',
-                          rating: rating.toInt(),
+                          rating: rating!.toInt(),
                           review: _controller.text,
                           date: date,
                         ));

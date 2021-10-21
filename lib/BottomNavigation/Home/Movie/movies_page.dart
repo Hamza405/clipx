@@ -70,7 +70,7 @@ class _MoviesBodyState extends State<MoviesBody> {
                       margin: EdgeInsets.symmetric(horizontal: 8.0),
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(i.image),
+                          image: AssetImage(i.image!),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(12.0),
@@ -169,8 +169,8 @@ class _MoviesBodyState extends State<MoviesBody> {
 class TitleRow extends StatelessWidget {
   final String title;
   final bool showIcon;
-  final Widget button;
-  final Function onTap;
+  final Widget? button;
+  final Function()? onTap;
 
   TitleRow(this.title, this.showIcon, {this.button, this.onTap});
 

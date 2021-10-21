@@ -60,6 +60,7 @@ class _VerificationBodyState extends State<VerificationBody> {
                     readOnly: false,
                     label: 'Enter Verification Code',
                     maxLength: 6,
+                    onTap: () {},
                   ),
                   Hero(
                     tag: 'signToVer',

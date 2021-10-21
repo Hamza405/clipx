@@ -10,90 +10,90 @@ class AppLocalizations {
 
   static Languages language = Languages();
 
-  static AppLocalizations of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
-  }
+  // static AppLocalizations of(BuildContext context) {
+  //   return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  // }
 
-  static Map<String, Map<String, String>> _localizedValues = {
-    'en': language.english(),
-    'hi': language.hindi(),
-  };
+  // static Map<String, Map<String, String>> _localizedValues = {
+  //   'en': language.english(),
+  //   'hi': language.hindi(),
+  // };
 
-  String get bodyText1 {
-    return _localizedValues[locale.languageCode]['bodyText1'];
-  }
+  // String get bodyText1 {
+  //   return _localizedValues[locale.languageCode]['bodyText1'];
+  // }
 
-  String get bodyText2 {
-    return _localizedValues[locale.languageCode]['bodyText2'];
-  }
+  // String get bodyText2 {
+  //   return _localizedValues[locale.languageCode]['bodyText2'];
+  // }
 
-  String get mobileText {
-    return _localizedValues[locale.languageCode]['mobileText'];
-  }
+  // String get mobileText {
+  //   return _localizedValues[locale.languageCode]['mobileText'];
+  // }
 
-  String get continueText {
-    return _localizedValues[locale.languageCode]['continueText'];
-  }
+  // String get continueText {
+  //   return _localizedValues[locale.languageCode]['continueText'];
+  // }
 
-  String get vegetableText {
-    return _localizedValues[locale.languageCode]['vegetableText'];
-  }
+  // String get vegetableText {
+  //   return _localizedValues[locale.languageCode]['vegetableText'];
+  // }
 
-  String get foodText {
-    return _localizedValues[locale.languageCode]['foodText'];
-  }
+  // String get foodText {
+  //   return _localizedValues[locale.languageCode]['foodText'];
+  // }
 
-  String get meatText {
-    return _localizedValues[locale.languageCode]['meatText'];
-  }
+  // String get meatText {
+  //   return _localizedValues[locale.languageCode]['meatText'];
+  // }
 
-  String get medicineText {
-    return _localizedValues[locale.languageCode]['medicineText'];
-  }
+  // String get medicineText {
+  //   return _localizedValues[locale.languageCode]['medicineText'];
+  // }
 
-  String get petText {
-    return _localizedValues[locale.languageCode]['petText'];
-  }
+  // String get petText {
+  //   return _localizedValues[locale.languageCode]['petText'];
+  // }
 
-  String get customText {
-    return _localizedValues[locale.languageCode]['customText'];
-  }
+  // String get customText {
+  //   return _localizedValues[locale.languageCode]['customText'];
+  // }
 
-  String get homeText {
-    return _localizedValues[locale.languageCode]['homeText'];
-  }
+  // String get homeText {
+  //   return _localizedValues[locale.languageCode]['homeText'];
+  // }
 
-  String get orderText {
-    return _localizedValues[locale.languageCode]['orderText'];
-  }
+  // String get orderText {
+  //   return _localizedValues[locale.languageCode]['orderText'];
+  // }
 
-  String get accountText {
-    return _localizedValues[locale.languageCode]['accountText'];
-  }
+  // String get accountText {
+  //   return _localizedValues[locale.languageCode]['accountText'];
+  // }
 
-  String get myAccount {
-    return _localizedValues[locale.languageCode]['myAccount'];
-  }
+  // String get myAccount {
+  //   return _localizedValues[locale.languageCode]['myAccount'];
+  // }
 
-  String get savedAddresses {
-    return _localizedValues[locale.languageCode]['savedAddresses'];
-  }
+  // String get savedAddresses {
+  //   return _localizedValues[locale.languageCode]['savedAddresses'];
+  // }
 
-  String get tnc {
-    return _localizedValues[locale.languageCode]['tnc'];
-  }
+  // String get tnc {
+  //   return _localizedValues[locale.languageCode]['tnc'];
+  // }
 
-  String get support {
-    return _localizedValues[locale.languageCode]['support'];
-  }
+  // String get support {
+  //   return _localizedValues[locale.languageCode]['support'];
+  // }
 
-  String get aboutUs {
-    return _localizedValues[locale.languageCode]['aboutUs'];
-  }
+  // String get aboutUs {
+  //   return _localizedValues[locale.languageCode]!['aboutUs'];
+  // }
 
-  String get logout {
-    return _localizedValues[locale.languageCode]['logout'];
-  }
+  // String get logout {
+  //   return _localizedValues[locale.languageCode]['logout'];
+  // }
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

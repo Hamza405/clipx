@@ -10,10 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthProvider with ChangeNotifier {
   final String keyUserData = 'userData';
   var dio = Dio();
-  UserModel _user;
-  UserModel get user => _user;
-  String _token;
-  String get token => _token;
+  UserModel? _user;
+  UserModel? get user => _user;
+  String? _token;
+  String? get token => _token;
   bool _isAuth = false;
   bool get isAuth => _isAuth;
 
@@ -25,9 +25,9 @@ class AuthProvider with ChangeNotifier {
       final data = response.data;
       print(data);
       _user = UserModel.fromJson(data);
-      if (_user.code >= 200 && _user.code < 300) {
+      if (_user!.code! >= 200 && _user!.code! < 300) {
         _isAuth = true;
-        _token = _user.data.accessToken.toString();
+        _token = _user!.data!.accessToken.toString();
         print('Token : $_token');
       }
       notifyListeners();
@@ -36,7 +36,7 @@ class AuthProvider with ChangeNotifier {
         'token': _token,
       });
       prefs.setString(keyUserData, userData);
-      print(_user.message.success);
+      print(_user!.message!.success);
     } catch (error) {
       print(error.toString());
       throw error;
@@ -61,9 +61,9 @@ class AuthProvider with ChangeNotifier {
       final data = response.data as Map<String, dynamic>;
       print(data);
       _user = UserModel.fromJson(data);
-      if (_user.code >= 200 && _user.code < 300) {
+      if (_user!.code! >= 200 && _user!.code! < 300) {
         _isAuth = true;
-        _token = _user.data.accessToken.toString();
+        _token = _user!.data!.accessToken.toString();
         print('Token : $_token');
       }
       // final prefs = await SharedPreferences.getInstance();
@@ -85,6 +85,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> autoLogin() async {
+    return false;
     // final prefs = await SharedPreferences.getInstance();
     // if (!prefs.containsKey('userData')) {
     //   return false;
@@ -97,7 +98,7 @@ class AuthProvider with ChangeNotifier {
     // return true;
   }
 
-  Future<void> logout() {
+  Future<void> logout() async {
     _token = null;
     _user = null;
     _isAuth = false;
@@ -109,7 +110,7 @@ class AuthProvider with ChangeNotifier {
     final response = await dio.post(
         'https://hotflix.club/api/user/profile-setting',
         data: {'firstname': firstName, 'lastname': lastName},
-        options: Options(headers: {'Authorization': "Bearer " + _token}));
+        options: Options(headers: {'Authorization': "Bearer " + _token!}));
     final data = response.data;
     print(data);
     notifyListeners();
