@@ -1,6 +1,54 @@
+class MovieModel {
+  int? code;
+  String? status;
+  Data? data;
+
+  MovieModel({this.code, this.status, this.data});
+
+  MovieModel.fromJson(Map<String?, dynamic> json) {
+    code = json['code'];
+    status = json['status'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['status'] = this.status;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
+  }
+}
+
+class Data {
+  List<Movies>? movies;
+
+  Data({this.movies});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    if (json['movies'] != null) {
+      movies = <Movies>[];
+      json['movies'].forEach((v) {
+        movies!.add(new Movies.fromJson(v));
+      });
+    }
+  }
+
+  Map<String?, dynamic> toJson() {
+    final Map<String?, dynamic> data = new Map<String?, dynamic>();
+    if (this.movies != null) {
+      data['movies'] = this.movies!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
 class Movies {
   int? id;
   String? categoryId;
+  Null? subCategoryId;
   String? title;
   String? previewText;
   String? description;
@@ -21,6 +69,7 @@ class Movies {
   Movies(
       {this.id,
       this.categoryId,
+      this.subCategoryId,
       this.title,
       this.previewText,
       this.description,
@@ -41,6 +90,7 @@ class Movies {
   Movies.fromJson(Map<String?, dynamic> json) {
     id = json['id'];
     categoryId = json['category_id'];
+    subCategoryId = json['sub_category_id'];
     title = json['title'];
     previewText = json['preview_text'];
     description = json['description'];
@@ -63,6 +113,7 @@ class Movies {
     final Map<String?, dynamic> data = new Map<String?, dynamic>();
     data['id'] = this.id;
     data['category_id'] = this.categoryId;
+    data['sub_category_id'] = this.subCategoryId;
     data['title'] = this.title;
     data['preview_text'] = this.previewText;
     data['description'] = this.description;

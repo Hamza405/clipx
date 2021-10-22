@@ -4,6 +4,8 @@ import 'package:pocketmovies/BottomNavigation/Home/home_page.dart';
 import 'package:pocketmovies/BottomNavigation/Account/UI/account_page.dart';
 import 'package:pocketmovies/Pages/watchlist_page.dart';
 import 'package:pocketmovies/BottomNavigation/Search/search_page.dart';
+import 'package:pocketmovies/management/provider/home_provider.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override

@@ -13,6 +13,8 @@ import 'package:pocketmovies/BottomNavigation/Home/Movie/movie_details.dart';
 import 'package:pocketmovies/Routes/routes.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 import 'package:pocketmovies/BottomNavigation/Home/Components/movie.dart';
+import 'package:pocketmovies/management/provider/home_provider.dart';
+import 'package:provider/provider.dart';
 
 class MoviesPage extends StatelessWidget {
   @override
@@ -44,123 +46,146 @@ class _MoviesBodyState extends State<MoviesBody> {
     final double screenWidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ///Carousel
-          CarouselSlider(
-            options: CarouselOptions(
-              autoPlay: true,
-              initialPage: movies.length ~/ 2,
-              height: 165,
-              enableInfiniteScroll: false,
-            ),
-            items: movies.map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MovieDetailsPage()));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8.0),
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(i.image!),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                  );
-                },
-              );
-            }).toList(),
-          ),
+      child: FutureBuilder(
+        future:
+            Provider.of<HomeProvider>(context, listen: false).fetchAllData(),
+        builder: (context, state) {
+          if (state.connectionState == ConnectionState.done) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ///Carousel
+                CarouselSlider(
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    initialPage: movies.length ~/ 2,
+                    height: 165,
+                    enableInfiniteScroll: false,
+                  ),
+                  items: movies.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MovieDetailsPage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8.0),
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(i.image!),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
 
-          ///Continue Watching
-          TitleRow(
-            'Continue Watching',
-            true,
-            onTap: () =>
-                Navigator.pushNamed(context, PageRoutes.continueWatchingPage),
-          ),
-          ContinueWatching(PageRoutes.movieDetailsPage),
+                ///Continue Watching
+                TitleRow(
+                  'Continue Watching',
+                  true,
+                  onTap: () => Navigator.pushNamed(
+                      context, PageRoutes.continueWatchingPage),
+                ),
+                ContinueWatching(PageRoutes.movieDetailsPage),
 
-          ///Explore by Genre
-          TitleRow('Explore by genre', false),
-          Container(
-            margin: EdgeInsets.only(left: 8.0),
-            height: 36.0,
-            child: ExploreByGenre(width: screenWidth / 4.25),
-          ),
+                ///Explore by Genre
+                TitleRow('Explore by genre', false),
+                Container(
+                  margin: EdgeInsets.only(left: 8.0),
+                  height: 36.0,
+                  child: ExploreByGenre(width: screenWidth / 4.25),
+                ),
 
-          ///Recently Added
-          TitleRow(
-            'Recently Added',
-            true,
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MorePage(recentList, 'Recently Added',
-                        PageRoutes.movieDetailsPage))),
-          ),
-          RecentlyAdded('Recently Added', PageRoutes.movieDetailsPage),
+                ///Recently Added
+                TitleRow(
+                  'Recently Added',
+                  true,
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MorePage(recentList,
+                              'Recently Added', PageRoutes.movieDetailsPage))),
+                ),
+                RecentlyAdded('Recently Added', PageRoutes.movieDetailsPage),
 
-          ///Top Picks
-          TitleRow(
-            'Top picks for you',
-            true,
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MorePage(topPicksList,
-                        'Top picks for you', PageRoutes.movieDetailsPage))),
-          ),
-          TopPicks('Top picks for you', PageRoutes.movieDetailsPage),
+                ///Top Picks
+                TitleRow(
+                  'Top picks for you',
+                  true,
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MorePage(
+                              topPicksList,
+                              'Top picks for you',
+                              PageRoutes.movieDetailsPage))),
+                ),
+                TopPicks('Top picks for you', PageRoutes.movieDetailsPage),
 
-          ///Comedy
-          TitleRow(
-            'Comedy',
-            true,
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MorePage(
-                        comedyList, 'Comedy', PageRoutes.movieDetailsPage))),
-          ),
-          Comedy('Comedy', PageRoutes.movieDetailsPage),
+                ///Comedy
+                TitleRow(
+                  'Comedy',
+                  true,
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MorePage(comedyList, 'Comedy',
+                              PageRoutes.movieDetailsPage))),
+                ),
+                Comedy('Comedy', PageRoutes.movieDetailsPage),
 
-          ///Drama
-          TitleRow(
-            'Drama',
-            true,
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MorePage(
-                        dramaList, 'Drama', PageRoutes.movieDetailsPage))),
-          ),
-          Drama('Drama', PageRoutes.movieDetailsPage),
+                ///Drama
+                TitleRow(
+                  'Drama',
+                  true,
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MorePage(dramaList, 'Drama',
+                              PageRoutes.movieDetailsPage))),
+                ),
+                Drama('Drama', PageRoutes.movieDetailsPage),
 
-          ///Adventure
-          TitleRow(
-            'Adventure',
-            true,
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MorePage(adventureList, 'Adventure',
-                        PageRoutes.movieDetailsPage))),
-          ),
-          Adventure('Adventure', PageRoutes.movieDetailsPage),
+                ///Adventure
+                TitleRow(
+                  'Adventure',
+                  true,
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MorePage(adventureList,
+                              'Adventure', PageRoutes.movieDetailsPage))),
+                ),
+                Adventure('Adventure', PageRoutes.movieDetailsPage),
 
-          SizedBox(height: 80.0)
-        ],
+                SizedBox(height: 80.0)
+              ],
+            );
+          } else if (state.hasError) {
+            return Center(
+              child: Text(
+                'Some thing wrong! ,please try again',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }

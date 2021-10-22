@@ -6,6 +6,7 @@ import 'package:pocketmovies/Components/button_with_icon.dart';
 import 'package:pocketmovies/Components/continue_button.dart';
 import 'package:pocketmovies/Theme/colors.dart';
 import 'package:pocketmovies/management/provider/auth_provider.dart';
+import 'package:pocketmovies/management/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
@@ -46,48 +47,51 @@ class _SignInBodyState extends State<SignInBody> {
   }
 
   Future<void> _sumbit() async {
-    final LoginResult result = await FacebookAuth.instance.login(
-      permissions: [
-        'public_profile',
-        'email',
-        'pages_show_list',
-        'pages_messaging',
-        'pages_manage_metadata'
-      ],
-    ); // by default we request the email and the public profile
-// or FacebookAuth.i.login()
-    if (result.status == LoginStatus.success) {
-      // you are logged
-      final AccessToken accessToken = result.accessToken!;
-      print(result);
-      print(result.accessToken);
-      print(result.status);
-      print(result.message);
-    } else {
-      print(result.status);
-      print(result.message);
+//     final LoginResult result = await FacebookAuth.instance.login(
+//       permissions: [
+//         'public_profile',
+//         'email',
+//         'pages_show_list',
+//         'pages_messaging',
+//         'pages_manage_metadata'
+//       ],
+//     ); // by default we request the email and the public profile
+// // or FacebookAuth.i.login()
+//     if (result.status == LoginStatus.success) {
+//       // you are logged
+//       final AccessToken accessToken = result.accessToken!;
+//       print(result);
+//       print(result.accessToken);
+//       print(result.status);
+//       print(result.message);
+//     } else {
+//       print(result.status);
+//       print(result.message);
+//     }
+    if (!_formKey.currentState!.validate()) return;
+    _formKey.currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await Provider.of<AuthProvider>(context, listen: false)
+          .signIn(_authData['userName']!, _authData['password']!);
+    } catch (e) {
+      String errorMessage =
+          'Could not authenticate you. Please try again later.';
+      if (e.toString().contains('Username')) {
+        errorMessage = 'Could not authenticate you. Check your Username';
+      }
+      if (e.toString().contains('Password')) {
+        errorMessage = 'Could not authenticate you. Check your Password';
+      }
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
     }
-    // _formKey.currentState.save();
-    // setState(() {
-    //   _isLoading = true;
-    // });
-    // try {
-    //   await Provider.of<AuthProvider>(context, listen: false)
-    //       .signIn(_authData['userName'], _authData['password']);
-    // } catch (e) {
-    //   String errorMessage =
-    //       'Could not authenticate you. Please try again later.';
-    //   if (e.toString().contains('Username')) {
-    //     errorMessage = 'Could not authenticate you. Check your Username';
-    //   }
-    //   if (e.toString().contains('Password')) {
-    //     errorMessage = 'Could not authenticate you. Check your Password';
-    //   }
-    //   Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
-    // }
-    // setState(() {
-    //   _isLoading = false;
-    // });
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -159,7 +163,7 @@ class _SignInBodyState extends State<SignInBody> {
                       obscureText: _lockedPassword,
                       controller: _passwordController,
                       validator: (value) {
-                        if (value!.isEmpty || value!.length < 5) {
+                        if (value!.isEmpty || value.length < 5) {
                           return 'Password is too short!';
                         }
                       },

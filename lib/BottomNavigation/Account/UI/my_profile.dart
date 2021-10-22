@@ -67,7 +67,7 @@ class MyProfilePage extends StatelessWidget {
             EntryField(
               textCapitalization: TextCapitalization.none,
               label: 'Email Address',
-              initialValue: '${userData!.email}',
+              initialValue: '${userData.email}',
               readOnly: true,
               onTap: () {},
             ),

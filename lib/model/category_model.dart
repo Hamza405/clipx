@@ -1,8 +1,56 @@
+class CategoryModel {
+  int? code;
+  String? status;
+  Message? message;
+
+  CategoryModel({this.code, this.status, this.message});
+
+  CategoryModel.fromJson(Map<String, dynamic> json) {
+    code = json['code'];
+    status = json['status'];
+    message =
+        json['message'] != null ? new Message.fromJson(json['message']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['status'] = this.status;
+    if (this.message != null) {
+      data['message'] = this.message!.toJson();
+    }
+    return data;
+  }
+}
+
+class Message {
+  List<Category>? category;
+
+  Message({required this.category});
+
+  Message.fromJson(Map<String, dynamic> json) {
+    if (json['category'] != null) {
+      category = <Category>[];
+      json['category'].forEach((v) {
+        category!.add(new Category.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.category != null) {
+      data['category'] = this.category!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
 class Category {
   int? id;
   String? name;
   String? status;
-  String? createdAt;
+  Null? createdAt;
   String? updatedAt;
 
   Category({this.id, this.name, this.status, this.createdAt, this.updatedAt});
